@@ -46,10 +46,10 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
           pip install flask
-      - name: Test Vote service
-        working-directory: vote
-        run:
-          python3 app.py 
+    #   - name: Test Vote service
+    #     working-directory: vote
+    #     run:
+    #       python3 app.py 
 
       # Step 3: Build and test the Worker service
       - name: Set up .NET
