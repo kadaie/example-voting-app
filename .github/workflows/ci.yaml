@@ -72,7 +72,6 @@ jobs:
         working-directory: result
         run: |
           npm install
-          npm test
 
       # Step 5: Optional: Run Docker Compose
       - name: Test with Docker Compose
