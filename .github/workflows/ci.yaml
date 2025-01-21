@@ -49,7 +49,7 @@ jobs:
       - name: Test Vote service
         working-directory: vote
         run:
-          python app.py 
+          python3 app.py 
 
       # Step 3: Build and test the Worker service
       - name: Set up .NET
