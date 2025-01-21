@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7.0;net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,5 +10,10 @@
     <PackageReference Include="Npgsql" Version="4.1.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
 
 </Project>
