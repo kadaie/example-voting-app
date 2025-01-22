@@ -18,25 +18,27 @@ jobs:
       # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Step 2: Set up Docker Compose
-      - name: Install Docker Compose (if necessary)
+      
+      - name: Install Docker
         run: |
-          sudo apt update -y 
-          sudo apt install docker-compose-plugin -y
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
 
       # Step 3: Run and test services with Docker Compose
       - name: Test with Docker Compose
         run: |
-          docker compose up -d
+          docker-compose up -d
           echo "Waiting for services to start..."
           sleep 30  # Adjust sleep duration if services take longer to initialize
           
           echo "Checking running containers:"
-          docker compose ps
+          docker-compose ps
 
           echo "Fetching logs for debugging:"
-          docker compose logs
+          docker-compose logs
 
           echo "Tearing down services:"
-          docker compose down
+          docker-compose down
