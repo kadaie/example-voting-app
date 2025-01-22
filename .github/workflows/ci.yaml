@@ -1,7 +1,7 @@
 name: CI for Example Voting App
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
   push:
     branches:
       - main
@@ -14,70 +14,29 @@ jobs:
     name: Build and Test Services
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: examplevotingapp
-        ports:
-          - 5432:5432
-
-      redis:
-        image: redis:alpine
-        ports:
-          - 6379:6379
-
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python for the Vote service
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies for Vote
-        working-directory: vote
+      # Step 2: Set up Docker Compose
+      - name: Install Docker Compose (if necessary)
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
-          pip install flask
-    #   - name: Test Vote service
-    #     working-directory: vote
-    #     run:
-    #       python3 app.py 
+          sudo apt-get update
+          sudo apt-get install docker-compose-plugin
 
-      # Step 3: Build and test the Worker service
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0'
-      - name: Build Worker service
-        working-directory: worker
-        run: dotnet build
-      - name: Test Worker service
-        working-directory: worker
-        run: dotnet test
-
-      # Step 4: Set up Node.js for the Result service
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install and test Result service
-        working-directory: result
-        run: |
-          npm install
-
-      # Step 5: Optional: Run Docker Compose
+      # Step 3: Run and test services with Docker Compose
       - name: Test with Docker Compose
         run: |
           docker compose up -d
-          sleep 30  # Wait for services to start
+          echo "Waiting for services to start..."
+          sleep 30  # Adjust sleep duration if services take longer to initialize
+          
+          echo "Checking running containers:"
           docker compose ps
+
+          echo "Fetching logs for debugging:"
           docker compose logs
+
+          echo "Tearing down services:"
           docker compose down
