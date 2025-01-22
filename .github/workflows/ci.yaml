@@ -12,22 +12,14 @@ on:
 jobs:
   build-and-test:
     name: Build and Test Services
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, node01]
 
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
 
-      # Step 3: Run and test services with Docker Compose
+      # Step 2: Run and test services with Docker Compose
       - name: Test with Docker Compose
         run: |
           docker-compose up -d
@@ -39,6 +31,3 @@ jobs:
 
           echo "Fetching logs for debugging:"
           docker-compose logs
-
-          echo "Tearing down services:"
-          docker-compose down
