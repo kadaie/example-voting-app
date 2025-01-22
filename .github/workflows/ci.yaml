@@ -20,14 +20,14 @@ jobs:
         uses: actions/checkout@v3
 
       # Step 2: Run and test services with Docker Compose
-      - name: Test with Docker Compose
+      - name: Vote Service Testing
         run: |
-          docker compose up -d
-          echo "Waiting for services to start..."
-          sleep 30  # Adjust sleep duration if services take longer to initialize
-          
-          echo "Checking running containers:"
-          docker compose ps
+          docker compose up -d vote
 
-          echo "Fetching logs for debugging:"
-          docker compose logs
+      - name: Worker Service Testing
+        run: docker compose up -d worker 
+
+      - name: Result Service Testing
+        run: |
+          docker compose up -d result 
+          docker compose ps 
