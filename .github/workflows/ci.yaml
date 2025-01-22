@@ -22,8 +22,8 @@ jobs:
       # Step 2: Set up Docker Compose
       - name: Install Docker Compose (if necessary)
         run: |
-          sudo apt-get update
-          sudo apt-get install docker-compose-plugin
+          sudo apt update -y 
+          sudo apt install docker-compose-plugin -y
 
       # Step 3: Run and test services with Docker Compose
       - name: Test with Docker Compose
